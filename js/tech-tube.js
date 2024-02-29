@@ -1,6 +1,7 @@
 const allBtnContainer = document.getElementById('all-btn-container');
 const cardContainer = document.getElementById('card-container');
 const emptyContainer = document.getElementById('empty-btn-container');
+const verifiedBadge = false;
 const loadAllCategoryData = async () => {
     const res = await fetch(` https://openapi.programming-hero.com/api/videos/categories`);
     const data = await res.json();
@@ -21,20 +22,27 @@ const loadAllCategoryData = async () => {
     });
 
 }
-const loadAllId = async (id) => {
+const loadAllId = async (id = "1000", verifiedBadge) => {
     cardContainer.innerHTML = '';
     const res = await fetch(`https://openapi.programming-hero.com/api/videos/category/${id}`);
     const data = await res.json();
     const allItem = data.data;
-    if(allItem.length === 0){
+    if (allItem.length === 0) {
         emptyContainer.classList.remove('hidden');
     }
-    else{
+    else {
         emptyContainer.classList.add('hidden')
     }
     // console.log(allItem);
-    for(const item of allItem){
+    for (const item of allItem) {
         console.log(item);
+        verifiedBadge = item.authors[0].verified;
+        if (verifiedBadge) {
+            verifiedBadge = `<img src="./logos/fi_10629607.png" alt=""></img>`;
+        } else {
+            verifiedBadge = '';
+        }
+        // console.log(item);
         const card = document.createElement('div');
         card.className = `space-y-5`
         card.innerHTML = `
@@ -47,7 +55,7 @@ const loadAllId = async (id) => {
                 <h1 class = "font-bold text-xl">${item.title}</h1>
                 <div class="flex gap-5 opacity-80">
                     <p class = "opacity-80 text-[#252525B3]">${item.authors[0].profile_name}</p>
-                    <img src="./logos/fi_10629607.png" alt="">
+                    ${verifiedBadge}
                 </div>
                 <p class = "opacity-80 text-[#252525B3]">${item.others.views}</p>
             </div>
@@ -57,5 +65,5 @@ const loadAllId = async (id) => {
         cardContainer.appendChild(card);
     }
 }
-
+loadAllId()
 loadAllCategoryData()
