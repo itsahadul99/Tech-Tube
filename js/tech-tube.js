@@ -35,7 +35,8 @@ const loadAllId = async (id = "1000", verifiedBadge) => {
     }
     // console.log(allItem);
     for (const item of allItem) {
-        console.log(item);
+        const sortButton = document.getElementById('sort-btn');
+        // console.log(item);
         verifiedBadge = item.authors[0].verified;
         if (verifiedBadge) {
             verifiedBadge = `<img src="./logos/fi_10629607.png" alt=""></img>`;
@@ -44,9 +45,9 @@ const loadAllId = async (id = "1000", verifiedBadge) => {
         }
         // console.log(item);
         const card = document.createElement('div');
-        card.className = `space-y-5`
+        card.className = `space-y-5 flex flex-col justify-center items-start border`
         card.innerHTML = `
-        <div class="w-full"><img class = "w-full" class="" src="${item.thumbnail}" alt=""></div>
+        <div class="w-full"><img class = "w-full" src="${item.thumbnail}" alt=""></div>
         <div class="flex gap-5">
             <div>
                 <img class = "rounded-full w-20 h-16" src="${item.authors[0].profile_picture}" alt="">
