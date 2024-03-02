@@ -10,19 +10,26 @@ const loadAllCategoryData = async () => {
     console.log(categories);
     categories.forEach(categoriesName => {
         const allBtn = document.createElement('button');
-        allBtn.className = `btn`
+        allBtn.className = `btn category-btn`
         allBtn.innerText = `
             ${categoriesName.category}
-        `
-        allBtn.addEventListener("click", () => loadAllId(categoriesName.category_id
-        )
-
-        );
+            `
+        // allBtn.style.backgroundColor = 'gray'
+        allBtn.addEventListener("click", () => {
+            loadAllId(categoriesName.category_id);
+            // console.log(newBtn);
+            const newBtn = document.querySelectorAll('.category-btn');
+            for (const btn of newBtn) {
+                btn.classList.remove('bg-red-400');
+                console.log(btn);
+            }
+            allBtn.classList.add('bg-red-400')
+        });
         allBtnContainer.appendChild(allBtn);
     });
 
 }
-const loadAllId = async (id = "1000", verifiedBadge) => {
+const loadAllId = async (id='1000', verifiedBadge) => {
     cardContainer.innerHTML = '';
     const res = await fetch(`https://openapi.programming-hero.com/api/videos/category/${id}`);
     const data = await res.json();
@@ -35,7 +42,6 @@ const loadAllId = async (id = "1000", verifiedBadge) => {
     }
     // console.log(allItem);
     for (const item of allItem) {
-        const sortButton = document.getElementById('sort-btn');
         // console.log(item);
         verifiedBadge = item.authors[0].verified;
         if (verifiedBadge) {
